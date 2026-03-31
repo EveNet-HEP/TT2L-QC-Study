@@ -161,4 +161,4 @@ After building RooUnfold, make sure the `libRooUnfold.dylib` path matches the on
 python analysis.py <your predict file path>
 ```
 
-The results will be saved in the `results/` folder.
+The results will be saved in the `results_<file tag>/` folder.
