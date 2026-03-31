@@ -8,24 +8,24 @@ This repository contains the code and documentation for the downstream task: **q
 
 ```aiignore
 git clone https://github.com/EveNet-HEP/TT2L-QC-Study.git
-cd TT2L_QE-Study
+cd TT2L-QC-Study
 ```
 
 To run the code, it is recommended to use Docker.
 
-### Step 1. Pull and run the Docker image
+### Step 1. Clone EveNet-Full
+
+```bash
+git clone --recursive https://github.com/EveNet-HEP/EveNet-Full.git
+```
+
+### Step 2. Pull and run the Docker image
 
 ```bash
 docker pull docker.io/avencast1994/evenet:1.5
 docker run --gpus all -it \
   -v /path/to/your/data:/workspace/data \
   docker.io/avencast1994/evenet:1.5
-```
-
-### Step 2. Clone the code
-
-```bash
-git clone --recursive https://github.com/EveNet-HEP/EveNet-Full.git
 ```
 
 ### Enable Weights & Biases (wandb) logging
@@ -63,9 +63,9 @@ Data_path="<Data_path>"
 Wandb_project="<Your WandB Project Name>" # optional
 
 cp examples/Train_examples.yaml ${YAML_name}.yaml
-sed 's/<download_dir>/${Data_path}/g' ${YAML_name}.yaml
-sed 's/<Your WandB Project Name>"/${Wandb_project}/g' ${YAML_name}.yaml
-sed 's/<save_dir>"/${Save_folder}/g' ${YAML_name}.yaml
+sed "s|<download_dir>|${Data_path}|g" ${YAML_name}.yaml
+sed "s|<Your WandB Project Name>|${Wandb_project}|g" ${YAML_name}.yaml
+sed "s|<save_dir>|${Save_folder}|g" ${YAML_name}.yaml
 ```
 
 ### Additional YAML options
@@ -100,7 +100,7 @@ options:
 ### Train the model
 
 ```bash
-python3 EveNet_Full/scripts/train.py <your YAML file>
+python3 EveNet-Full/scripts/train.py <your YAML file>
 ```
 
 ---
@@ -118,15 +118,15 @@ Data_path="<Data_path>"
 ckpt_name="<Your checkpoint name>"
 
 cp examples/Predict_examples.yaml ${YAML_name}.yaml
-sed 's/<download_dir>/${Data_path}/g' ${YAML_name}.yaml
-sed 's/<save_dir>"/${Save_folder}/g' ${YAML_name}.yaml
-sed 's/<ckpt_name>"/${ckpt_name}/g' ${YAML_name}.yaml
+sed "s|<download_dir>|${Data_path}|g" ${YAML_name}.yaml
+sed "s|<save_dir>|${Save_folder}|g" ${YAML_name}.yaml
+sed "s|<ckpt_name>|${ckpt_name}|g" ${YAML_name}.yaml
 ```
 
 ### Generate predictions
 
 ```bash
-python3 EveNet_Full/scripts/predict.py <your YAML file>
+python3 EveNet-Full/scripts/predict.py <your YAML file>
 ```
 
 ---
