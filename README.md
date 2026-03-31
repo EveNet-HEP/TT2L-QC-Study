@@ -126,7 +126,7 @@ sed 's/<ckpt_name>"/${ckpt_name}/g' ${YAML_name}.yaml
 ### Generate predictions
 
 ```bash
-python3 EveNet_Full/scripts/train.py <your YAML file>
+python3 EveNet_Full/scripts/predict.py <your YAML file>
 ```
 
 ---
