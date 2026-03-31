@@ -1,0 +1,123 @@
+platform:
+  data_parquet_dir: "<download_dir>/train"
+  data_parquet_val_dir: "<download_dir>/val"
+  number_of_workers: 16
+  resources_per_worker: {
+    "CPU": 30,
+    "GPU": 1,
+  }
+  batch_size: 1024
+  prefetch_batches: 2
+  use_gpu: true
+
+logger:
+  wandb:
+    project: "<Your WandB Project Name>"
+    name: "tt2l"
+    run_name: &logger_name "scratch-ema-ds1p0"
+    tags: [ "TT2L", "Neutrinos", "QE" ]
+  local:
+    save_dir: "<save_dir>/EveNet_logs"
+    name: *logger_name
+    version: 2025_11_22_TT2L_41M
+
+options:
+  default: configs_TT2L/options.yaml
+
+  Training:
+    total_epochs: 300
+    epochs: 300
+    model_checkpoint_save_top_k: 1
+    model_checkpoint_save_path: "<save_dir>/checkpoints_41M/"
+    pretrain_model_load_path: null
+
+    diffusion_every_n_epochs: 25 # how often to run diffusion
+    diffusion_every_n_steps: 1 # how often to run diffusion inside the valid epoch
+
+    learning_rate: &lr 0.00005
+    learning_rate_body: &lr_body 0.00005
+    weight_decay: &wd 0.01
+    Components:
+      GlobalEmbedding:
+        learning_rate: *lr_body
+        weight_decay: *wd
+        optimizer_type: "AdamW"
+      PET:
+        learning_rate: *lr_body
+        weight_decay: *wd
+        optimizer_type: "AdamW"
+      ObjectEncoder:
+        learning_rate: *lr_body
+        weight_decay: *wd
+        optimizer_type: "AdamW"
+      Classification:
+        include: false
+        include_cross_term: false
+      Regression:
+        include: false
+      Assignment:
+        include: true
+        warm_up: true
+        learning_rate: *lr
+        weight_decay: *wd
+        optimizer_type: "AdamW"
+      Segmentation:
+        include: false
+      GlobalGeneration:
+        include: false
+      ReconGeneration:
+        include: false
+      TruthGeneration:
+        include: true
+        warm_up: true
+        learning_rate: *lr
+        weight_decay: *wd
+        optimizer_type: "AdamW"
+        diffusion_steps: 200
+
+    EarlyStopping:
+      patience: 50
+      min_delta: 0.0
+      monitor: "val/loss"
+      mode: "min"
+      verbose: true
+
+    EMA:
+      enable: true               # Enable or disable EMA
+      decay: 0.999               # EMA decay rate
+      start_epoch: 0             # Start updating EMA after this epoch
+      update_every_n_steps: 1    # Update EMA every N steps
+
+      replace_model_after_load: true    # After loading checkpoint, copy EMA weights into model
+      replace_model_at_end: false         # At training end, copy EMA weights into model (will not save EMA weights)
+
+  Dataset:
+    dataset_limit: 1.0
+    normalization_file: "<download_dir>/train/normalization.pt"
+    dataset_limit_apply_to_val_set: False
+
+
+network:
+  default: configs_TT2L/pretrain.yaml
+
+  Body:
+    PET:
+      feature_drop: 0.0
+  ReconGeneration:
+    feature_drop: 0.0
+  TruthGeneration:
+    feature_drop: 0.0
+  # overwrites
+  # ...
+
+event_info:
+  default: configs_TT2L/event_info.yaml
+
+  # overwrites
+  # ...
+
+resonance:
+  default: configs_TT2L/resonance.yaml
+
+  # overwrites
+  # ...
