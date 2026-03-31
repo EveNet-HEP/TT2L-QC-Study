@@ -11,12 +11,9 @@ git clone https://github.com/EveNet-HEP/TT2L-QC-Study.git
 cd TT2L_QE-Study
 ```
 
-To run the code, the following dependencies are required:
+To run the code, it is recommended to use Docker.
 
-- Python 3.12 or higher  
-- EveNet-Full  
-
-### Option 1. Use Docker
+### Step 1. Pull and run the Docker image
 
 ```bash
 docker pull docker.io/avencast1994/evenet:1.5
@@ -25,22 +22,12 @@ docker run --gpus all -it \
   docker.io/avencast1994/evenet:1.5
 ```
 
-### Option 2. Use our pip release
-
-```bash
-pip3 install evenet
-```
-
-### Option 3. Install from source
+### Step 2. Clone the code
 
 ```bash
 git clone --recursive https://github.com/EveNet-HEP/EveNet-Full.git
-cd EveNet-Full
-pip install -r requirements.txt
-# Each time you open a new terminal, run the following to add the source code to your PYTHONPATH
-export PYTHONPATH=$(pwd):$PYTHONPATH
 ```
-More introudction for the **EveNet-Full** can be found here: https://evenet-hep.github.io/EveNet-Full/
+
 ### Enable Weights & Biases (wandb) logging
 
 ```aiignore
@@ -53,7 +40,7 @@ export WANDB_API_KEY=[your_wandb_api_key]
 
 All preprocessed datasets are hosted on Hugging Face. Please download them in advance:
 
-Link: https://evenet-hep.github.io/EveNet-Full/#resources
+Link: https://huggingface.co/datasets/Avencast/EveNet-TT2L-QuantumCorrelation/tree/main
 
 Dataset structure:
 
@@ -94,7 +81,7 @@ options:
         learning_rate_body: <Learning rate for the PET body>
 ```
 
-2. Fine-tuning from a pretrained model
+2. Fine-tune from a pretrained model
 
 ```YAML
 options:
@@ -113,10 +100,6 @@ options:
 ### Train the model
 
 ```bash
-# If using the pip-installed CLI
-evenet-train <your YAML file>
-
-# If using the source code
 python3 EveNet_Full/scripts/train.py <your YAML file>
 ```
 
@@ -143,10 +126,6 @@ sed 's/<ckpt_name>"/${ckpt_name}/g' ${YAML_name}.yaml
 ### Generate predictions
 
 ```bash
-# If using the pip-installed CLI
-evenet-predict <your YAML file>
-
-# If using the source code
 python3 EveNet_Full/scripts/train.py <your YAML file>
 ```
 
