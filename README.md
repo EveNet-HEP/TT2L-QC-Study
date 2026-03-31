@@ -24,7 +24,7 @@ git clone --recursive https://github.com/EveNet-HEP/EveNet-Full.git
 ```bash
 docker pull docker.io/avencast1994/evenet:1.5
 docker run --gpus all -it \
-  -v /path/to/your/data:/workspace/data \
+  -v /path/to/your/workspace:/workspace/ \
   docker.io/avencast1994/evenet:1.5
 ```
 
