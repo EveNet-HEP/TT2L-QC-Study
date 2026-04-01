@@ -162,3 +162,25 @@ python analysis.py <your predict file path>
 ```
 
 The results will be saved in the `results_<file tag>/` folder.
+
+## Computing Estimation
+
+The experiments in this work were performed on a computing cluster with **NVIDIA A100 40GB GPUs**.
+
+A typical single training run was carried out on **16 × A100 GPUs** and completed in about **2 hours** (with early stopping).  
+Assuming approximately linear scaling, this corresponds to:
+
+- **1 × NVIDIA A100 40GB**: approximately **30–40 hours**
+- **1 × NVIDIA RTX 4090 24GB**: approximately **2–3 days**
+
+It is important to note that this only reflects the cost of **a single training run**.  
+The full study reported in the paper involves **multiple trainings with different configurations, hyperparameters, and systematic checks**, and therefore requires substantially more total compute.
+
+The actual runtime on a given system may vary depending on:
+
+- data loading and I/O performance,
+- software environment (CUDA, PyTorch, etc.),
+- mixed precision settings,
+- batch size and gradient accumulation.
+
+In particular, due to the smaller GPU memory on consumer hardware compared to A100 40GB, reproducing the training may require reducing the per-device batch size, which can further increase the runtime.
