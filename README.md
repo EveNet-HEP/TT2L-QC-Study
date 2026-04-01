@@ -174,8 +174,6 @@ The estimated runtime for different hardware configurations is:
 |-----------------------------------|------------------|------|
 | 16 × A100 40GB                    | ~2 hours         | Cluster setup used in this work |
 | 1 × A100 40GB                     | ~30–40 hours     | Approximate linear scaling |
-| 1 × RTX 4090 (24GB)               | ~2–3 days        | May require smaller batch size |
-| 1 × RTX 4080 / 4070 Ti (consumer) | ~3–5 days        | Likely requires gradient accumulation |
 
 It is important to note that this table reflects the cost of **a single training run only**.  
 The full study reported in the paper involves **multiple trainings with different configurations and systematic checks**, and therefore requires substantially more total compute.
