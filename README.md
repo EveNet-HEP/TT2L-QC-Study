@@ -167,20 +167,24 @@ The results will be saved in the `results_<file tag>/` folder.
 
 The experiments in this work were performed on a computing cluster with **NVIDIA A100 40GB GPUs**.
 
-A typical single training run was carried out on **16 × A100 GPUs** and completed in about **2 hours** (with early stopping).  
-Assuming approximately linear scaling, this corresponds to:
+A typical single training run completes in about **2 hours** using 16 GPUs.  
+The estimated runtime for different hardware configurations is:
 
-- **1 × NVIDIA A100 40GB**: approximately **30–40 hours**
-- **1 × NVIDIA RTX 4090 24GB**: approximately **2–3 days**
+| Hardware Configuration              | Estimated Runtime | Notes |
+|-----------------------------------|------------------|------|
+| 16 × A100 40GB                    | ~2 hours         | Cluster setup used in this work |
+| 1 × A100 40GB                     | ~30–40 hours     | Approximate linear scaling |
+| 1 × RTX 4090 (24GB)               | ~2–3 days        | May require smaller batch size |
+| 1 × RTX 4080 / 4070 Ti (consumer) | ~3–5 days        | Likely requires gradient accumulation |
 
-It is important to note that this only reflects the cost of **a single training run**.  
-The full study reported in the paper involves **multiple trainings with different configurations, hyperparameters, and systematic checks**, and therefore requires substantially more total compute.
+It is important to note that this table reflects the cost of **a single training run only**.  
+The full study reported in the paper involves **multiple trainings with different configurations and systematic checks**, and therefore requires substantially more total compute.
 
-The actual runtime on a given system may vary depending on:
+The actual runtime may vary depending on:
 
 - data loading and I/O performance,
 - software environment (CUDA, PyTorch, etc.),
 - mixed precision settings,
 - batch size and gradient accumulation.
 
-In particular, due to the smaller GPU memory on consumer hardware compared to A100 40GB, reproducing the training may require reducing the per-device batch size, which can further increase the runtime.
+Due to the smaller GPU memory on consumer hardware compared to A100 40GB, reproducing the training may require reducing the per-device batch size, which can further increase the runtime.
