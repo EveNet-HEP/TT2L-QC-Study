@@ -81,6 +81,14 @@ options:
         learning_rate_body: <Learning rate for the PET body>
 ```
 
+The learning rates used for each task in the paper are summarised in the table below:
+
+| Task | Head learning rate | Body learning rate |
+|---|---:|---:|
+| EveNet–Scratch | `5e-5` | `5e-5` |
+| EveNet–SSL | `5e-5` | `5e-6` |
+| EveNet–Full | `5e-5` | `5e-6` |
+
 2. Fine-tune from a pretrained model
 
 ```YAML
